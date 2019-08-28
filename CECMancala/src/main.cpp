@@ -15,8 +15,8 @@
 #include <memory>
 
 int main() {
-	std::shared_ptr<Engine> engine = std::make_shared<Engine>();
-	engine->loop();
+	Engine::init();
+	Engine::loop();
 
 	return 0;
 }

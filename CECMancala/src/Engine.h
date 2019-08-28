@@ -3,12 +3,17 @@
 #include <Signal.h>
 
 class Engine {
-public:
-	Engine();
+private:
+	Engine() {};
 protected:
-	bool looping;
+	static bool looping;
+	static bool initialized;
 public:
-	void loop();
+	static void init();
+public:
+	static void loop();
 public:
 	static Signal<> SignalRender;
+public:
+	static void inputEvent(const char& key);
 };

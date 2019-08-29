@@ -17,6 +17,7 @@
 int main() {
 	Engine::init();
 	Engine::loop();
+	Engine::deinit();
 
 	return 0;
 }

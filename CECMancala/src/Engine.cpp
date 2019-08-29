@@ -10,6 +10,7 @@
 #include <Macros.h>
 
 Signal<> Engine::SignalRender = Signal<>();
+Slot_Scoped<char> Engine::SlotKeyPress = Slot_Scoped<char>();
 
 bool Engine::looping = false;
 bool Engine::initialized = false;
@@ -22,13 +23,23 @@ void Engine::init() {
 
 	looping = true;
 
+	Console::init();
 	Renderer::init();
 
-	Input::SignalKeyPress.connect(&inputEvent);
+	SlotKeyPress = Input::SignalKeyPress.connect(&inputEvent);
+}
+
+void Engine::deinit() {
+	if (!initialized) {
+		return;
+	}
+	initialized = false;
+
+	
 }
 
 void Engine::inputEvent(const char& key) {
-	Console::log("Key pressed: ", key);
+	// Console::log("Key pressed: ", key);
 }
 
 void Engine::loop() {
@@ -48,12 +59,18 @@ void Engine::loop() {
 			continue;
 		}
 
-		//Console::clear();
+		Console::reset();
 
-		//Console::write("Test - ", (std::chrono::high_resolution_clock::now() - startTime).count(), " - ", Input::isKeyPressed('X'));
-		//SignalRender.emit();
+		//Console::log("Test - ", (std::chrono::high_resolution_clock::now() - startTime).count(), " - ", Input::isKeyPressed('X'));
+		SignalRender.emit();
 
-		//Renderer::flush();
+		//Renderer::drawLine(0, 0, 95, 27, '*');
+		Renderer::drawLine(0, 0, 24, 0, '+');
+		Renderer::drawLine(0, 0, 0, 24, '|');
+		Renderer::drawLine(0, 0, 24, 24, '*');
+
+		Renderer::flush();
+
 		lastTime = std::chrono::high_resolution_clock::now();
 	}
 }

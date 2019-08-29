@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Macros.h>
+#include <string>
 
 class Renderer {
 private:
@@ -14,6 +15,7 @@ public:
 public:
 	static void draw(const unsigned int& x, const unsigned int& y, const char& character);
 	static void drawLine(const int& x, const int& y, const int& width, const int& height, const char& character);
+	static void drawText(const unsigned int& x, const unsigned int& y, const std::string& text);
 public:
 	static void flush();
 };

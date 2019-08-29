@@ -9,6 +9,8 @@
 
 #include <Macros.h>
 
+#include <cstdlib>
+
 Signal<> Engine::SignalRender = Signal<>();
 Slot_Scoped<char> Engine::SlotKeyPress = Slot_Scoped<char>();
 
@@ -42,12 +44,49 @@ void Engine::inputEvent(const char& key) {
 	// Console::log("Key pressed: ", key);
 }
 
+void Engine::render() {
+	Console::reset();
+
+	//Console::log("Test - ", (std::chrono::high_resolution_clock::now() - startTime).count(), " - ", Input::isKeyPressed('X'));
+	SignalRender.emit();
+
+	// char characterSet[10] = { '_', '-', '=', '+', 'O', '0', '%', '&', '^', '*' };
+
+	/*for (unsigned int x = 0; x < GRID_X_WIDTH; x++) {
+	Renderer::drawLine(x, 0, x, GRID_Y_WIDTH - 1, rand() % 15 + 60);
+	}*/
+
+	/*for (unsigned int x = 0; x < GRID_X_WIDTH; x++) {
+	for (unsigned int y = 0; y < GRID_Y_WIDTH; y++) {
+	Renderer::draw(x, y, rand() % 15 + 60);
+	}
+	}*/
+
+	//Renderer::drawLine(0, 0, 24, 0, '+');
+	//Renderer::drawLine(0, 0, 0, 24, '|');
+	//Renderer::drawLine(0, 0, 24, 24, '*');
+
+	/*for (unsigned int x = 0; x < (frameCounter*10 < GRID_X_WIDTH ? frameCounter*10 : GRID_X_WIDTH); x++) {
+	float y = ((float) x / (float) GRID_X_WIDTH) * ((float) GRID_Y_WIDTH);
+
+	Renderer::drawLine(x, 0, 0, y, '*');
+	}*/
+
+	/*for (unsigned int x = GRID_X_WIDTH - 1; x > 0; x--) {
+	float y = (((float) GRID_X_WIDTH - (float) x) / (float) GRID_X_WIDTH) * ((float) GRID_Y_WIDTH);
+
+	Renderer::drawLine(GRID_X_WIDTH - 1, y, x, 0, '*');
+	}*/
+
+	Renderer::flush();
+}
+
 void Engine::loop() {
 	init();
 
-	auto lastFrameTime = CHRONO_NOW();
-	auto lastInputTime = lastFrameTime;
-	auto startTime = lastFrameTime;
+	std::chrono::steady_clock::time_point lastFrameTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
+	std::chrono::steady_clock::time_point lastInputTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
+	auto startTime = CHRONO_NOW();
 
 	unsigned int frameCounter = 0;
 
@@ -55,7 +94,7 @@ void Engine::loop() {
 		const unsigned __int64 frameDiffMs = (CHRONO_NOW() - lastFrameTime).count() / 1000000;
 		const unsigned __int64 inputDiffMs = (CHRONO_NOW() - lastInputTime).count() / 1000000;
 
-		if (inputDiffMs < INPUT_FREQUENCY_MS) {
+		if (inputDiffMs > INPUT_FREQUENCY_MS) {
 			Input::refresh();
 			lastInputTime = CHRONO_NOW();
 		}
@@ -64,28 +103,7 @@ void Engine::loop() {
 			continue;
 		}
 
-		Console::reset();
-
-		//Console::log("Test - ", (std::chrono::high_resolution_clock::now() - startTime).count(), " - ", Input::isKeyPressed('X'));
-		SignalRender.emit();
-
-		/*Renderer::drawLine(0, 0, 24, 0, '+');
-		Renderer::drawLine(0, 0, 0, 24, '|');
-		Renderer::drawLine(0, 0, 24, 24, '*');*/
-		
-		for (unsigned int x = 0; x < (frameCounter*10 < GRID_X_WIDTH ? frameCounter*10 : GRID_X_WIDTH); x++) {
-			float y = ((float) x / (float) GRID_X_WIDTH) * ((float) GRID_Y_WIDTH);
-
-			Renderer::drawLine(x, 0, 0, y, '*');
-		}
-
-		for (unsigned int x = GRID_X_WIDTH - 1; x > 0; x--) {
-			float y = (((float) GRID_X_WIDTH - (float) x) / (float) GRID_X_WIDTH) * ((float) GRID_Y_WIDTH);
-
-			Renderer::drawLine(GRID_X_WIDTH - 1, y, x, 0, '*');
-		}
-
-		Renderer::flush();
+		render();
 
 		frameCounter++;
 		lastFrameTime = CHRONO_NOW();

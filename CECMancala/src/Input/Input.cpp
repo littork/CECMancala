@@ -2,7 +2,7 @@
 
 Signal<char> Input::SignalKeyPress = Signal<char>();
 Signal<char> Input::SignalKeyRelease = Signal<char>();
-bool Input::keyStates[36] = { false };
+bool Input::keyStates[37] = { false };
 
 bool Input::isKeyPressed(const unsigned __int16& key) {
 	return GetKeyState(key) & 0x8000;
@@ -18,5 +18,13 @@ void Input::refresh() {
 			keyStates[offset] = false;
 			SignalKeyRelease.emit(i);
 		}
+	}
+
+	if (!keyStates[36] && isKeyPressed(13)) { // Enter key
+		keyStates[36] = true;
+		SignalKeyPress.emit(13);
+	} else if (keyStates[36] && !isKeyPressed(13)) {
+		keyStates[36] = false;
+		SignalKeyRelease.emit(13);
 	}
 }

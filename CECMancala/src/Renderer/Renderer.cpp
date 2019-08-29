@@ -58,6 +58,18 @@ void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2
 	}
 }
 
+void Renderer::drawText(const unsigned int& x, const unsigned int& y, const std::string& text) {
+#ifdef _DEBUG
+	if (x + text.length() >= GRID_X_WIDTH) {
+		throw;
+	}
+#endif
+
+	for (int _x = x; _x < text.length(); _x++) {
+		draw(_x, y, text[_x - x]);
+	}
+}
+
 void Renderer::flush() {
 	for (unsigned int y = 0; y < GRID_Y_WIDTH; y++) {
 		for (unsigned int x = 0; x < GRID_X_WIDTH; x++) {

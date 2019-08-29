@@ -5,14 +5,16 @@
 class Engine {
 private:
 	Engine() {};
-protected:
+public:
 	static bool looping;
+protected:
 	static bool initialized;
 public:
 	static void init();
 	static void deinit();
 public:
 	static void loop();
+	static void render();
 public:
 	static Signal<> SignalRender;
 

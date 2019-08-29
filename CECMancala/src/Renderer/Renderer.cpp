@@ -24,36 +24,36 @@ void Renderer::draw(const unsigned int& x, const unsigned int& y, const char& ch
 	buffer[x][y] = character;
 }
 
-void Renderer::drawLine(const unsigned int& x, const unsigned int& y, const unsigned int& width, const unsigned int& height, const char& character) {
+void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2, const char& character) {
 #ifdef _DEBUG
-	if (x > width || y > height || x < 0 || y < 0 || width < 0 || height < 0) {
+	if (x < 0 || y < 0 || x2 < 0 || y2 < 0) {
 		throw;
 	}
 #endif
 
-	const unsigned int dx = width - x;
-	const unsigned int dy = height - y;
-	const float err = (float) dy / (float) dx;
+	const int dx = (int) x2 - (int) x;
+	const int dy = (int) y2 - (int) y;
+	const float err = abs((float) dy / (float) dx);
 
 	if (dx == 0) {
-		for (unsigned int _y = y; _y <= height; _y++) {
+		for (int _y = y; _y <= y2; _y++) {
 			draw(x, _y, character);
 		}
 		return;
 	} else if (dy == 0) {
-		for (unsigned int _x = x; _x <= width; _x++) {
+		for (int _x = x; _x <= x2; _x++) {
 			draw(_x, y, character);
 		}
 		return;
 	}
 
-	float _y = y;
+	float _y = abs((float) y);
 
-	for (unsigned int _x = x; _x <= width; _x++) {
-		draw(_x, (unsigned int) _y, character);
+	for (int _x = x; (x2 > x ? (_x < x2) : (_x >= x2)); x2 > x ? _x++ : _x--) {
+		draw(_x, (int) _y, character);
 		_y += err;
-		if (_y > height) {
-			_y = height - 1;
+		if (_y > y2) {
+			_y = abs((float) y2 - (float) 1);
 		}
 	}
 }

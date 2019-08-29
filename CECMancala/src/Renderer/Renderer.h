@@ -13,7 +13,7 @@ public:
 	static void init();
 public:
 	static void draw(const unsigned int& x, const unsigned int& y, const char& character);
-	static void drawLine(const unsigned int& x, const unsigned int& y, const unsigned int& width, const unsigned int& height, const char& character);
+	static void drawLine(const int& x, const int& y, const int& width, const int& height, const char& character);
 public:
 	static void flush();
 };

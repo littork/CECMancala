@@ -30,6 +30,12 @@ int main() {
 
 	unsigned __int64 actualNumber = 0;
 
+	unsigned int totalGuesses = 0;
+	unsigned int totalGames = 0;
+	unsigned int currentGuesses = 0;
+	unsigned int mostGuesses = 0;
+	unsigned int leastGuesses = 0;
+
 	std::string guessResult = "";
 
 	// Renderer
@@ -48,6 +54,13 @@ int main() {
 			Renderer::drawText(0, 0, "That number is out of range, press enter to try again");
 			break;
 		}
+
+		Renderer::drawText(0, 1, "Total Guesses: " + std::to_string(totalGuesses));
+		Renderer::drawText(0, 2, "Total Games Played: " + std::to_string(totalGames));
+		Renderer::drawText(0, 3, "Most/Least Guesses: " + std::to_string(mostGuesses) + "/" + std::to_string(leastGuesses));
+		if (totalGuesses > 0 && totalGames > 0) {
+			Renderer::drawText(0, 4, "Average number of guesses taken to win each game: " + std::to_string((float)totalGuesses / (float)totalGames));
+		}
 	});
 
 	// State machine
@@ -61,6 +74,7 @@ int main() {
 		case 0:
 			maxScore = std::stoi(activeEntry);
 			actualNumber = rand() % (maxScore + 1);
+			currentGuesses = 0;
 			break;
 		}
 
@@ -71,9 +85,20 @@ int main() {
 			lastGuess = 0;
 			break;
 		case 1:
+			if (lastGuess == actualNumber) {
+				State::setState(0);
+			}
 			activeEntry = "";
 			break;
 		case 2:
+			totalGuesses++;
+			currentGuesses++;
+			if (currentGuesses > mostGuesses) {
+				mostGuesses = currentGuesses;
+			}
+			if (leastGuesses > currentGuesses) {
+				leastGuesses = currentGuesses;
+			}
 			lastGuess = std::stoi(activeEntry);
 			activeEntry = "";
 			if (lastGuess > maxScore) {
@@ -86,10 +111,10 @@ int main() {
 			} else if (lastGuess < actualNumber) {
 				guessResult = "too low.";
 			} else {
-				guessResult = "correct! Press enter to restart.";
+				guessResult = "correct! Press enter to restart";
 				break;
 			}
-			guessResult += " Press enter to guess again.";
+			guessResult += " Press enter to guess again";
 
 			break;
 		}
@@ -144,6 +169,10 @@ int main() {
 			}
 			break;
 		case 2:
+			if (lastGuess == actualNumber) {
+				totalGames++;
+			}
+
 			if (key == Key::Return) {
 				State::setState(1);
 			}

@@ -5,6 +5,7 @@
 
 bool Renderer::initialized = false;
 char Renderer::buffer[GRID_X_WIDTH][GRID_Y_WIDTH] = { 0 };
+char Renderer::lastBuffer[GRID_X_WIDTH][GRID_Y_WIDTH] = { 0 };
 
 void Renderer::init() {
 	if (initialized) {
@@ -66,9 +67,9 @@ void Renderer::drawText(const unsigned int& x, const unsigned int& y, const std:
 #endif
 
 	for (int _y = y; _y < y + ceilf(( float) text.length() / ( float) GRID_X_WIDTH); _y++) {
-		for (int _x = x; _x < (text.length() < GRID_X_WIDTH ? text.length() : (min(text.length() - (_y * GRID_X_WIDTH), GRID_X_WIDTH))); _x++) {
-			unsigned int wrapOffset = _y * GRID_X_WIDTH;
-			draw(_x, _y, text.at(_x - x + (_y ? wrapOffset : 0)));
+		for (int _x = x; _x < (text.length() < GRID_X_WIDTH ? text.length() : (min(text.length() - ((_y - y) * GRID_X_WIDTH), GRID_X_WIDTH))); _x++) {
+			unsigned int wrapOffset = (_y - y) * GRID_X_WIDTH;
+			draw(_x, _y, text.at(_x - x + ((_y - y) ? wrapOffset : 0)));
 		}
 	}
 }
@@ -76,13 +77,18 @@ void Renderer::drawText(const unsigned int& x, const unsigned int& y, const std:
 void Renderer::flush() {
 	for (unsigned int y = 0; y < GRID_Y_WIDTH; y++) {
 		for (unsigned int x = 0; x < GRID_X_WIDTH; x++) {
-			std::cout << buffer[x][y];
+			//if (buffer[x][y] == lastBuffer[x][y]) {
+			//	SetCursorPos(x + 1, y);
+			//} else {
+				std::cout << buffer[x][y];
+			//}
 		}
 		std::cout << "\n";
 	}
 
 	for (unsigned int x = 0; x < GRID_X_WIDTH; x++) {
 		for (unsigned int y = 0; y < GRID_Y_WIDTH; y++) {
+			//lastBuffer[x][y] = buffer[x][y];
 			buffer[x][y] = 0;
 		}
 	}

@@ -13,6 +13,7 @@ private:
 private:
 	static HANDLE handle;
 	static COORD coordZero;
+	static COORD activeCoord;
 public:
 	static void reset();
 public:
@@ -39,4 +40,5 @@ public:
 	}
 
 	static void setCursorVisible(const bool& visible);
+	static void setCursorPosition(const unsigned int& x, const unsigned int& y);
 };

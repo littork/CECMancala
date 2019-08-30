@@ -3,6 +3,7 @@
 bool Console::initialized = false;
 HANDLE Console::handle = HANDLE();
 COORD Console::coordZero = COORD();
+COORD Console::activeCoord = COORD();
 
 void Console::reset() {
 	init();
@@ -30,4 +31,13 @@ void Console::setCursorVisible(const bool& visible) {
 	GetConsoleCursorInfo(handle, &cursorInfo);
 	cursorInfo.bVisible = false;
 	SetConsoleCursorInfo(handle, &cursorInfo);
+}
+
+void Console::setCursorPosition(const unsigned int& x, const unsigned int& y) {
+	init();
+
+	activeCoord.X = x;
+	activeCoord.Y = y;
+
+	SetConsoleCursorPosition(handle, activeCoord);
 }

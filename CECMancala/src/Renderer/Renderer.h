@@ -10,6 +10,7 @@ private:
 	static bool initialized;
 private:
 	static char buffer[GRID_X_WIDTH][GRID_Y_WIDTH];
+	static char lastBuffer[GRID_X_WIDTH][GRID_Y_WIDTH];
 public:
 	static void init();
 public:

@@ -580,6 +580,7 @@ __pycache__/
 
 *.pyc
 
+*.exe
 
 
 # Cake - Uncomment if you are using it

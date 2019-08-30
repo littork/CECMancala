@@ -33,6 +33,12 @@
     <ClInclude Include="src\Console\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\Keys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine.cpp">
@@ -48,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Console\Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\State.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

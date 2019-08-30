@@ -9,6 +9,9 @@
 
 #include <Macros.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <cstdlib>
 
 Signal<> Engine::SignalRender = Signal<>();
@@ -29,6 +32,8 @@ void Engine::init() {
 	Renderer::init();
 
 	SlotKeyPress = Input::SignalKeyPress.connect(&inputEvent);
+
+	srand((unsigned int) time(NULL));
 }
 
 void Engine::deinit() {

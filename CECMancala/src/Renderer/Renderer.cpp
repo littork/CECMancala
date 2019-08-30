@@ -60,13 +60,16 @@ void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2
 
 void Renderer::drawText(const unsigned int& x, const unsigned int& y, const std::string& text) {
 #ifdef _DEBUG
-	if (x + text.length() >= GRID_X_WIDTH) {
+	if (x + text.length() >= (GRID_X_WIDTH * GRID_Y_WIDTH)) {
 		throw;
 	}
 #endif
 
-	for (int _x = x; _x < text.length(); _x++) {
-		draw(_x, y, text[_x - x]);
+	for (int _y = y; _y < y + ceilf(( float) text.length() / ( float) GRID_X_WIDTH); _y++) {
+		for (int _x = x; _x < (text.length() < GRID_X_WIDTH ? text.length() : (min(text.length() - (_y * GRID_X_WIDTH), GRID_X_WIDTH))); _x++) {
+			unsigned int wrapOffset = _y * GRID_X_WIDTH;
+			draw(_x, _y, text.at(_x - x + (_y ? wrapOffset : 0)));
+		}
 	}
 }
 

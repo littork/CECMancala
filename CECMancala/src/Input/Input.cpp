@@ -1,8 +1,11 @@
 #include "Input.h"
 
+#include "Keys.h"
+
 Signal<char> Input::SignalKeyPress = Signal<char>();
 Signal<char> Input::SignalKeyRelease = Signal<char>();
-bool Input::keyStates[37] = { false };
+bool Input::keyStates[38] = { false };
+char Input::specialKeys[2] = {Key::Return, Key::Backspace};
 
 bool Input::isKeyPressed(const unsigned __int16& key) {
 	return GetKeyState(key) & 0x8000;
@@ -20,11 +23,14 @@ void Input::refresh() {
 		}
 	}
 
-	if (!keyStates[36] && isKeyPressed(13)) { // Enter key
-		keyStates[36] = true;
-		SignalKeyPress.emit(13);
-	} else if (keyStates[36] && !isKeyPressed(13)) {
-		keyStates[36] = false;
-		SignalKeyRelease.emit(13);
+	// Special keys
+	for (unsigned __int8 i = 36; i < 38; i++) {
+		if (!keyStates[i] && isKeyPressed(specialKeys[i - 36])) {
+			keyStates[i] = true;
+			SignalKeyPress.emit(specialKeys[i - 36]);
+		} else if (keyStates[i] && !isKeyPressed(specialKeys[i - 36])) {
+			keyStates[i] = false;
+			SignalKeyRelease.emit(specialKeys[i - 36]);
+		}
 	}
 }

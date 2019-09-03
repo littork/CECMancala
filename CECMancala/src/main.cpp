@@ -59,7 +59,7 @@ int main() {
 		Renderer::drawText(0, 2, "Total Games Played: " + std::to_string(totalGames));
 		Renderer::drawText(0, 3, "Most/Least Guesses: " + std::to_string(mostGuesses) + "/" + std::to_string(leastGuesses));
 		if (totalGuesses > 0 && totalGames > 0) {
-			Renderer::drawText(0, 4, "Average number of guesses taken to win each game: " + std::to_string((float)totalGuesses / (float)totalGames));
+			Renderer::drawText(0, 4, "Average number of guesses taken to end each game: " + std::to_string((float)totalGuesses / (float)totalGames));
 		}
 	});
 
@@ -93,12 +93,6 @@ int main() {
 		case 2:
 			totalGuesses++;
 			currentGuesses++;
-			if (currentGuesses > mostGuesses) {
-				mostGuesses = currentGuesses;
-			}
-			if (leastGuesses > currentGuesses) {
-				leastGuesses = currentGuesses;
-			}
 			lastGuess = std::stoi(activeEntry);
 			activeEntry = "";
 			if (lastGuess > maxScore) {
@@ -170,6 +164,12 @@ int main() {
 			break;
 		case 2:
 			if (lastGuess == actualNumber) {
+				if (currentGuesses > mostGuesses) {
+					mostGuesses = currentGuesses;
+				}
+				if (leastGuesses > currentGuesses || leastGuesses == 0) {
+					leastGuesses = currentGuesses;
+				}
 				totalGames++;
 			}
 
@@ -179,6 +179,7 @@ int main() {
 			break;
 		case 3:
 			if (key == Key::Return) {
+				totalGames++;
 				State::setState(0);
 			}
 			break;

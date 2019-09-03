@@ -118,6 +118,7 @@ template <typename... Args>
 class Slot {
 private:
 	Slot(const Slot<Args...>& copySlot) {}
+	friend Signal<Args...>;
 public:
 	Slot() : id(-1), signal(nullptr), existenceIndicator(std::weak_ptr<SignalExistenceIndicator>()) {}
 	Slot(Signal<Args...>* _signal, const int& _id, std::weak_ptr<SignalExistenceIndicator> _existenceIndicator) : id(_id), signal(_signal), existenceIndicator(_existenceIndicator) {}

@@ -8,8 +8,8 @@ class Input {
 private:
 	Input() {};
 private:
-	static bool keyStates[38];
-	static char specialKeys[2];
+	static bool keyStates[39];
+	static char specialKeys[3];
 public:
 	static bool isKeyPressed(const unsigned __int16& key);
 public:

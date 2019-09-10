@@ -67,7 +67,7 @@ void Renderer::drawText(const unsigned int& x, const unsigned int& y, const std:
 #endif
 
 	for (int _y = y; _y < y + ceilf(( float) text.length() / ( float) GRID_X_WIDTH); _y++) {
-		for (int _x = x; _x < (text.length() < GRID_X_WIDTH ? text.length() : (min(text.length() - ((_y - y) * GRID_X_WIDTH), GRID_X_WIDTH))); _x++) {
+		for (int _x = x; _x < (text.length() + x < GRID_X_WIDTH ? text.length() + x : (min(text.length() - ((_y - y) * GRID_X_WIDTH), GRID_X_WIDTH))); _x++) {
 			unsigned int wrapOffset = (_y - y) * GRID_X_WIDTH;
 			draw(_x, _y, text.at(_x - x + ((_y - y) ? wrapOffset : 0)));
 		}

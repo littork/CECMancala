@@ -6,6 +6,7 @@
 #include <chrono>
 
 #include <Input/Input.h>
+#include <Input/UserInput.h>
 
 #include <Macros.h>
 
@@ -30,6 +31,7 @@ void Engine::init() {
 
 	Console::init();
 	Renderer::init();
+	UserInput::init();
 
 	SlotKeyPress = Input::SignalKeyPress.connect(&inputEvent);
 
@@ -42,7 +44,7 @@ void Engine::deinit() {
 	}
 	initialized = false;
 
-	
+	UserInput::deinit();
 }
 
 void Engine::inputEvent(const char& key) {

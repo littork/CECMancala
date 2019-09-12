@@ -12,6 +12,7 @@
 #include <Renderer/Renderer.h>
 #include <Input/Input.h>
 #include <Input/Keys.h>
+#include <Input/UserInput.h>
 #include <State.h>
 #include <Engine.h>
 #include <cstdlib>
@@ -19,8 +20,6 @@
 
 int main() {
 	Engine::init();
-
-	std::string activeEntry = "";
 
 	// Renderer
 	Slot_Scoped<> SlotRender = Engine::SignalRender.connect([&]() {
@@ -51,32 +50,8 @@ int main() {
 		Engine::render();
 	});
 
-	// Input handler
-	Slot_Scoped<char> SlotKeyPress = Input::SignalKeyPress.connect([&](const char& key) {
-		switch (State::getState()) {
-		case 0:
-			if (key == Key::Return) {
-				if (activeEntry.length()) {
-					State::setState(1);
-				}
-				return;
-			}
-
-			if (key == Key::Backspace) {
-				if (activeEntry.length()) {
-					activeEntry = activeEntry.substr(0, activeEntry.length() - 1);
-				}
-				Engine::render();
-				return;
-			}
-
-			if (key >= 'A' && key <= 'Z') {
-				activeEntry += key;
-				Engine::render();
-				return;
-			}
-			break;
-		}
+	Slot_Scoped<std::string> SlotTextEntered = UserInput::SignalEntryEntered.connect([&](const std::string& text) {
+		
 	});
 
 	Engine::loop();

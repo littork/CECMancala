@@ -146,6 +146,7 @@
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Input\Keys.h" />
+    <ClInclude Include="src\Input\UserInput.h" />
     <ClInclude Include="src\Macros.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Signal.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="src\Console\Console.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
+    <ClCompile Include="src\Input\UserInput.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\State.cpp" />

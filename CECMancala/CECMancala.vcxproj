@@ -28,26 +28,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -142,24 +142,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Console\Console.h" />
-    <ClInclude Include="src\Engine.h" />
-    <ClInclude Include="src\Input\Input.h" />
-    <ClInclude Include="src\Input\Keys.h" />
-    <ClInclude Include="src\Input\UserInput.h" />
-    <ClInclude Include="src\Macros.h" />
-    <ClInclude Include="src\Renderer\Renderer.h" />
-    <ClInclude Include="src\Signal.h" />
-    <ClInclude Include="src\State.h" />
+    <ClInclude Include="src\Engine\Console\Console.h" />
+    <ClInclude Include="src\Engine\Engine.h" />
+    <ClInclude Include="src\Engine\Engine_Core.h" />
+    <ClInclude Include="src\Engine\Input\Input.h" />
+    <ClInclude Include="src\Engine\Input\Keys.h" />
+    <ClInclude Include="src\Engine\Input\UserInput.h" />
+    <ClInclude Include="src\Engine\Macros.h" />
+    <ClInclude Include="src\Engine\Renderer\Renderer.h" />
+    <ClInclude Include="src\Engine\Signal.h" />
+    <ClInclude Include="src\Engine\State.h" />
+    <ClInclude Include="src\Mancala\Board.h" />
+    <ClInclude Include="src\Mancala\Hole.h" />
+    <ClInclude Include="src\Mancala\MancalaMacros.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Console\Console.cpp" />
-    <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\Input\Input.cpp" />
-    <ClCompile Include="src\Input\UserInput.cpp" />
+    <ClCompile Include="src\Engine\Console\Console.cpp" />
+    <ClCompile Include="src\Engine\Engine.cpp" />
+    <ClCompile Include="src\Engine\Input\Input.cpp" />
+    <ClCompile Include="src\Engine\Input\UserInput.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\State.cpp" />
+    <ClCompile Include="src\Engine\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Engine\State.cpp" />
+    <ClCompile Include="src\Mancala\Board.cpp" />
+    <ClCompile Include="src\Mancala\Hole.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

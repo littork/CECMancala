@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Signal.h>
+#include <Engine/Signal.h>
 
 #include <string>
 
@@ -9,7 +9,6 @@ private:
 	UserInput() {};
 public:
 	static void init();
-	static void deinit();
 public:
 	static Signal<std::string> SignalEntryEntered;
 	static Signal<std::string, std::string> SignalEntryChanged;

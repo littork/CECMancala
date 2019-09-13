@@ -1,14 +1,14 @@
 #include "Engine.h"
 
-#include <Renderer/Renderer.h>
-#include <Console/Console.h>
+#include <Engine/Renderer/Renderer.h>
+#include <Engine/Console/Console.h>
 
 #include <chrono>
 
-#include <Input/Input.h>
-#include <Input/UserInput.h>
+#include <Engine/Input/Input.h>
+#include <Engine/Input/UserInput.h>
 
-#include <Macros.h>
+#include <Engine/Macros.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,7 +44,6 @@ void Engine::deinit() {
 	}
 	initialized = false;
 
-	UserInput::deinit();
 }
 
 void Engine::inputEvent(const char& key) {

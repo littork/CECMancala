@@ -1,11 +1,13 @@
 #include "Renderer.h"
 
-#include <Console/Console.h>
+#include <Engine/Console/Console.h>
 #include <math.h>
 
 bool Renderer::initialized = false;
 char Renderer::buffer[GRID_X_WIDTH][GRID_Y_WIDTH] = { 0 };
 char Renderer::lastBuffer[GRID_X_WIDTH][GRID_Y_WIDTH] = { 0 };
+
+unsigned int Renderer::window[2] = {0, 0};
 
 void Renderer::init() {
 	if (initialized) {
@@ -15,20 +17,68 @@ void Renderer::init() {
 	initialized = true;
 }
 
-void Renderer::draw(const unsigned int& x, const unsigned int& y, const char& character) {
+void Renderer::setWindow(const unsigned int& xOffset, const unsigned int& yOffset) {
+	window[0] = xOffset;
+	window[1] = yOffset;
+}
+
+void Renderer::draw(const int& x, const int& y, const char& character) {
 #ifdef _DEBUG
-	if (x >= GRID_X_WIDTH || y >= GRID_Y_WIDTH || x < 0 || y < 0) {
+	if (x + window[0] >= GRID_X_WIDTH || y + window[1] >= GRID_Y_WIDTH || x + window[0] < 0 || y + window[1] < 0) {
 		throw;
+		return;
 	}
 #endif
 
-	buffer[x][y] = character;
+	buffer[x + window[0]][y + window[1]] = character;
+}
+
+void Renderer::drawBox(const int& x, const int& y, const int& x2, const int& y2, const char& character) {
+#ifdef _DEBUG
+	if (x < 0 || y < 0 || x2 < 0 || y2 < 0 || x2 < x || y2 < y) {
+		throw;
+		return;
+	}
+#endif
+
+	Renderer::drawLine(x, y, x2, y, character);
+	Renderer::drawLine(x, y, x, y2, character);
+	Renderer::drawLine(x, y2, x2, y2, character);
+	Renderer::drawLine(x2, y, x2, y2, character);
+}
+
+void Renderer::drawSmartBox(const int& x, const int& y, const int& x2, const int& y2) {
+#ifdef _DEBUG
+	if (x2 < x || y2 < y) {
+		throw;
+		return;
+	}
+#endif
+
+	Renderer::drawLine(x, y, x, y2, '|');
+	Renderer::drawLine(x2, y, x2, y2, '|');
+	Renderer::drawLine(x, y2, x2, y2, '=');
+	Renderer::drawLine(x, y, x2, y, '=');
+}
+
+void Renderer::drawFilledBox(const int& x, const int& y, const int& x2, const int& y2, const char& character) {
+#ifdef _DEBUG
+	if (x < 0 || y < 0 || x2 < 0 || y2 < 0 || x2 < x || y2 < y) {
+		throw;
+		return;
+	}
+#endif
+
+	for (int i = y; i < y2; i++) {
+		Renderer::drawLine(x, i, x2, i, character);
+	}
 }
 
 void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2, const char& character) {
 #ifdef _DEBUG
-	if (x < 0 || y < 0 || x2 < 0 || y2 < 0) {
+	if (x2 < x || y2 < y) {
 		throw;
+		return;
 	}
 #endif
 
@@ -59,10 +109,15 @@ void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2
 	}
 }
 
-void Renderer::drawText(const unsigned int& x, const unsigned int& y, const std::string& text) {
+void Renderer::drawTextAligned(const int& x, const int& y, const std::string& text) {
+	drawText(x - ( unsigned int) ((( float) text.length()) / 2.f), y, text);
+}
+
+void Renderer::drawText(const int& x, const int& y, const std::string& text) {
 #ifdef _DEBUG
 	if (x + text.length() >= (GRID_X_WIDTH * GRID_Y_WIDTH)) {
 		throw;
+		return;
 	}
 #endif
 

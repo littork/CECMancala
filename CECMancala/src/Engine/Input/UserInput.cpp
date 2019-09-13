@@ -1,7 +1,7 @@
 #include "UserInput.h"
 
-#include <Input/Input.h>
-#include <Input/Keys.h>
+#include <Engine/Input/Input.h>
+#include <Engine/Input/Keys.h>
 
 Signal<std::string> UserInput::SignalEntryEntered = Signal<std::string>();
 Signal<std::string, std::string> UserInput::SignalEntryChanged = Signal<std::string, std::string>();
@@ -48,8 +48,4 @@ void UserInput::input(const char& key) {
 
 void UserInput::init() {
 	SlotKeyPress = Input::SignalKeyPress.connect(&input);
-}
-
-void UserInput::deinit() {
-
 }

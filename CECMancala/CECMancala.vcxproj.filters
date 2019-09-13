@@ -15,54 +15,72 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Signal.h">
+    <ClInclude Include="src\Engine\State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine.h">
+    <ClInclude Include="src\Engine\Signal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Macros.h">
+    <ClInclude Include="src\Engine\Macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\Renderer.h">
+    <ClInclude Include="src\Engine\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Input\Input.h">
+    <ClInclude Include="src\Engine\Renderer\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Console\Console.h">
+    <ClInclude Include="src\Engine\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\State.h">
+    <ClInclude Include="src\Engine\Input\Keys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Input\Keys.h">
+    <ClInclude Include="src\Engine\Input\UserInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Input\UserInput.h">
+    <ClInclude Include="src\Engine\Console\Console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Engine_Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mancala\Hole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mancala\Board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mancala\MancalaMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\Renderer.cpp">
+    <ClCompile Include="src\Engine\State.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Input\Input.cpp">
+    <ClCompile Include="src\Engine\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Console\Console.cpp">
+    <ClCompile Include="src\Engine\Renderer\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\State.cpp">
+    <ClCompile Include="src\Engine\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Input\UserInput.cpp">
+    <ClCompile Include="src\Engine\Input\UserInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Console\Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mancala\Hole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mancala\Board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

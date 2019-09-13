@@ -34,6 +34,7 @@ int main() {
 			break;
 		case 1:
 			board->draw();
+			Renderer::drawLine(0, 16, 92, 16, '=');
 		}
 	});
 

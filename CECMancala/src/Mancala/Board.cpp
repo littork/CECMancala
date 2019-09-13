@@ -22,6 +22,9 @@ void Board::setup() {
 }
 
 void Board::draw() {
+	leftMancala->drawMancala(0);
+	rightMancala->drawMancala(1);
+
 	for (unsigned int x = 0; x < POCKET_WIDTH; x++) {
 		leftPockets[x]->drawPocket(x, 0);
 		rightPockets[x]->drawPocket(x, 1);

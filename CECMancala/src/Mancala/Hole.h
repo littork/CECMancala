@@ -1,10 +1,15 @@
 #pragma once
 
+#include "StoneConfiguration.h"
+
+#include <memory>
+
 class Hole {
 public:
-	Hole() : stones(0) {};
+	Hole() : stones(0), stoneConfiguration(std::make_shared<StoneConfiguration>()) {};
 private:
 	unsigned int stones;
+	std::shared_ptr<StoneConfiguration> stoneConfiguration;
 public:
 	unsigned int getStones();
 	void addStones(const unsigned int& amount = 1);
@@ -18,4 +23,5 @@ public:
 	unsigned int takeStones(const unsigned int& amount = 1);
 public:
 	void drawPocket(const unsigned int& x, const unsigned int& y);
+	void drawMancala(const unsigned int& x);
 };

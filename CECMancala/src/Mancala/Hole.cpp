@@ -29,7 +29,7 @@ unsigned int Hole::takeStones(const unsigned int& amount) {
 
 void Hole::drawPocket(const unsigned int& x, const unsigned int& y) {
 	// Renderer::draw(2 * x, y, '+');
-	Renderer::drawBox(12 * x + POCKETS_X_OFFSET, y * 10, (12 * x) + 8 + POCKETS_X_OFFSET, (y * 10) + 5, L'▓');
+	Renderer::drawBox(12 * x + POCKETS_X_OFFSET, y * 10, (12 * x) + 8 + POCKETS_X_OFFSET, (y * 10) + 5, L'\u2588');
 
 	for (unsigned int i = 0; i < this->stones; i++) {
 		Renderer::draw(12 * x + POCKETS_X_OFFSET + this->stoneConfiguration->configuration[i]->x + 1, y * 10 + this->stoneConfiguration->configuration[i]->y + 1, L'\u058d');
@@ -37,5 +37,5 @@ void Hole::drawPocket(const unsigned int& x, const unsigned int& y) {
 }
 
 void Hole::drawMancala(const unsigned int& x) {
-	Renderer::drawBox(84 * x, 0, 84 * x + 8, 15, L'▓');
+	Renderer::drawBox(84 * x, 0, 84 * x + 8, 15, L'\u2588');
 }

@@ -27,14 +27,16 @@ int main() {
 
 		switch (State::getState()) {
 		case 0:
-			Renderer::drawFilledBox(1, 1, GRID_X_WIDTH - 2, GRID_Y_WIDTH - 1, '.');
+			Renderer::drawFilledBox(1, 1, GRID_X_WIDTH - 2, GRID_Y_WIDTH - 1, L'\u2576');
 			Renderer::drawTextAligned(48, 4, "CEC Mancala");
 			Renderer::drawTextAligned(48, 6, "By Dylan Pozarnsky");
 			Renderer::drawTextAligned(48, 12, "Press any key to begin");
 			break;
 		case 1:
 			board->draw();
-			Renderer::drawLine(0, 16, 92, 16, '=');
+			Renderer::drawLine(0, 16, 92, 16, L'\u2550');
+			Renderer::draw(-1, 16, L'\u2560');
+			Renderer::draw(93, 16, L'\u2563');
 		}
 	});
 

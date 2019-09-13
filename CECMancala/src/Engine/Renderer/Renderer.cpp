@@ -60,10 +60,19 @@ void Renderer::drawSmartBox(const int& x, const int& y, const int& x2, const int
 	}
 #endif
 
-	Renderer::drawLine(x, y, x, y2, '|');
-	Renderer::drawLine(x2, y, x2, y2, '|');
-	Renderer::drawLine(x, y2, x2, y2, '=');
-	Renderer::drawLine(x, y, x2, y, '=');
+	/*
+		https://www.fileformat.info/info/unicode/block/box_drawing/list.htm
+	*/
+
+	Renderer::drawLine(x, y, x, y2, L'\u2551');
+	Renderer::drawLine(x2, y, x2, y2, L'\u2551');
+	Renderer::drawLine(x, y2, x2, y2, L'\u2550');
+	Renderer::drawLine(x, y, x2, y, L'\u2550');
+
+	Renderer::draw(x, y, L'\u2554');
+	Renderer::draw(x2, y, L'\u2557');
+	Renderer::draw(x, y2, L'\u255a');
+	Renderer::draw(x2, y2, L'\u255d');
 }
 
 void Renderer::drawFilledBox(const int& x, const int& y, const int& x2, const int& y2, const wchar_t& character) {
@@ -115,7 +124,7 @@ void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2
 }
 
 void Renderer::drawTextAligned(const int& x, const int& y, const std::string& text) {
-	drawText(x - ( unsigned int) ((( float) text.length()) / 2.f), y, text);
+	drawText(x - (unsigned int) (((float) text.length()) / 2.f), y, text);
 }
 
 void Renderer::drawText(const int& x, const int& y, const std::string& text) {
@@ -126,7 +135,7 @@ void Renderer::drawText(const int& x, const int& y, const std::string& text) {
 	}
 #endif
 
-	for (int _y = y; _y < y + ceilf(( float) text.length() / ( float) GRID_X_WIDTH); _y++) {
+	for (int _y = y; _y < y + ceilf((float) text.length() / (float) GRID_X_WIDTH); _y++) {
 		for (int _x = x; _x < (text.length() + x < GRID_X_WIDTH ? text.length() + x : (min(text.length() - ((_y - y) * GRID_X_WIDTH), GRID_X_WIDTH))); _x++) {
 			unsigned int wrapOffset = (_y - y) * GRID_X_WIDTH;
 			draw(_x, _y, text.at(_x - x + ((_y - y) ? wrapOffset : 0)));

@@ -1,11 +1,14 @@
-#include "Renderer.h"
+﻿#include "Renderer.h"
 
 #include <Engine/Console/Console.h>
 #include <math.h>
 
+#include <io.h>
+#include <fcntl.h>
+
 bool Renderer::initialized = false;
-char Renderer::buffer[GRID_X_WIDTH][GRID_Y_WIDTH] = { 0 };
-char Renderer::lastBuffer[GRID_X_WIDTH][GRID_Y_WIDTH] = { 0 };
+wchar_t Renderer::buffer[GRID_X_WIDTH][GRID_Y_WIDTH] = { 0 };
+wchar_t Renderer::lastBuffer[GRID_X_WIDTH][GRID_Y_WIDTH] = { 0 };
 
 unsigned int Renderer::window[2] = {0, 0};
 
@@ -15,6 +18,8 @@ void Renderer::init() {
 	}
 
 	initialized = true;
+
+	_setmode(_fileno(stdout), _O_U16TEXT);
 }
 
 void Renderer::setWindow(const unsigned int& xOffset, const unsigned int& yOffset) {
@@ -22,7 +27,7 @@ void Renderer::setWindow(const unsigned int& xOffset, const unsigned int& yOffse
 	window[1] = yOffset;
 }
 
-void Renderer::draw(const int& x, const int& y, const char& character) {
+void Renderer::draw(const int& x, const int& y, const wchar_t& character) {
 #ifdef _DEBUG
 	if (x + window[0] >= GRID_X_WIDTH || y + window[1] >= GRID_Y_WIDTH || x + window[0] < 0 || y + window[1] < 0) {
 		throw;
@@ -33,7 +38,7 @@ void Renderer::draw(const int& x, const int& y, const char& character) {
 	buffer[x + window[0]][y + window[1]] = character;
 }
 
-void Renderer::drawBox(const int& x, const int& y, const int& x2, const int& y2, const char& character) {
+void Renderer::drawBox(const int& x, const int& y, const int& x2, const int& y2, const wchar_t& character) {
 #ifdef _DEBUG
 	if (x < 0 || y < 0 || x2 < 0 || y2 < 0 || x2 < x || y2 < y) {
 		throw;
@@ -61,7 +66,7 @@ void Renderer::drawSmartBox(const int& x, const int& y, const int& x2, const int
 	Renderer::drawLine(x, y, x2, y, '=');
 }
 
-void Renderer::drawFilledBox(const int& x, const int& y, const int& x2, const int& y2, const char& character) {
+void Renderer::drawFilledBox(const int& x, const int& y, const int& x2, const int& y2, const wchar_t& character) {
 #ifdef _DEBUG
 	if (x < 0 || y < 0 || x2 < 0 || y2 < 0 || x2 < x || y2 < y) {
 		throw;
@@ -74,7 +79,7 @@ void Renderer::drawFilledBox(const int& x, const int& y, const int& x2, const in
 	}
 }
 
-void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2, const char& character) {
+void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2, const wchar_t& character) {
 #ifdef _DEBUG
 	if (x2 < x || y2 < y) {
 		throw;
@@ -135,10 +140,10 @@ void Renderer::flush() {
 			//if (buffer[x][y] == lastBuffer[x][y]) {
 			//	SetCursorPos(x + 1, y);
 			//} else {
-				std::cout << buffer[x][y];
+				std::wcout << buffer[x][y];
 			//}
 		}
-		std::cout << "\n";
+		std::wcout << L"\n";
 	}
 
 	for (unsigned int x = 0; x < GRID_X_WIDTH; x++) {

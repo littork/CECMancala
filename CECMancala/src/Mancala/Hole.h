@@ -10,6 +10,8 @@ public:
 private:
 	unsigned int stones;
 	std::shared_ptr<StoneConfiguration> stoneConfiguration;
+private:
+	void recalculateStoneConfiguration();
 public:
 	unsigned int getStones();
 	void addStones(const unsigned int& amount = 1);

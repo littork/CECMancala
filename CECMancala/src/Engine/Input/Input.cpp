@@ -4,8 +4,8 @@
 
 Signal<char> Input::SignalKeyPress = Signal<char>();
 Signal<char> Input::SignalKeyRelease = Signal<char>();
-bool Input::keyStates[39] = { false };
-char Input::specialKeys[3] = {Key::Return, Key::Backspace, Key::Esc};
+bool Input::keyStates[43] = { false };
+char Input::specialKeys[7] = {Key::Return, Key::Backspace, Key::Esc, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN};
 
 bool Input::isKeyPressed(const unsigned __int16& key) {
 	return GetKeyState(key) & 0x8000;
@@ -24,7 +24,7 @@ void Input::refresh() {
 	}
 
 	// Special keys
-	for (unsigned __int8 i = 36; i < 39; i++) {
+	for (unsigned __int8 i = 36; i < 43; i++) {
 		if (!keyStates[i] && isKeyPressed(specialKeys[i - 36])) {
 			keyStates[i] = true;
 			SignalKeyPress.emit(specialKeys[i - 36]);

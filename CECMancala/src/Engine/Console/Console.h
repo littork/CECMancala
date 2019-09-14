@@ -10,8 +10,9 @@ public:
 	static void init();
 private:
 	static bool initialized;
-private:
+public:
 	static HANDLE handle;
+private:
 	static COORD coordZero;
 	static COORD activeCoord;
 public:
@@ -41,4 +42,5 @@ public:
 
 	static void setCursorVisible(const bool& visible);
 	static void setCursorPosition(const unsigned int& x, const unsigned int& y);
+	static void setTextAttribute(const char& attribute);
 };

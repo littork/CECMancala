@@ -7,8 +7,8 @@
 #include <fcntl.h>
 
 bool Renderer::initialized = false;
-wchar_t Renderer::buffer[GRID_X_WIDTH][GRID_Y_WIDTH] = { 0 };
-wchar_t Renderer::lastBuffer[GRID_X_WIDTH][GRID_Y_WIDTH] = { 0 };
+Character Renderer::buffer[GRID_X_WIDTH][GRID_Y_WIDTH] = {};
+Character Renderer::lastBuffer[GRID_X_WIDTH][GRID_Y_WIDTH] = {};
 
 unsigned int Renderer::window[2] = {0, 0};
 
@@ -20,6 +20,12 @@ void Renderer::init() {
 	initialized = true;
 
 	_setmode(_fileno(stdout), _O_U16TEXT);
+
+	for (unsigned int x = 0; x < GRID_X_WIDTH; x++) {
+		for (unsigned int y = 0; y < GRID_Y_WIDTH; y++) {
+			buffer[x][y] = Character();
+		}
+	}
 }
 
 void Renderer::setWindow(const unsigned int& xOffset, const unsigned int& yOffset) {
@@ -27,7 +33,7 @@ void Renderer::setWindow(const unsigned int& xOffset, const unsigned int& yOffse
 	window[1] = yOffset;
 }
 
-void Renderer::draw(const int& x, const int& y, const wchar_t& character) {
+void Renderer::draw(const int& x, const int& y, const Character& character) {
 #ifdef _DEBUG
 	if (x + window[0] >= GRID_X_WIDTH || y + window[1] >= GRID_Y_WIDTH || x + window[0] < 0 || y + window[1] < 0) {
 		throw;
@@ -37,8 +43,7 @@ void Renderer::draw(const int& x, const int& y, const wchar_t& character) {
 
 	buffer[x + window[0]][y + window[1]] = character;
 }
-
-void Renderer::drawBox(const int& x, const int& y, const int& x2, const int& y2, const wchar_t& character) {
+void Renderer::drawBox(const int& x, const int& y, const int& x2, const int& y2, const Character& character) {
 #ifdef _DEBUG
 	if (x < 0 || y < 0 || x2 < 0 || y2 < 0 || x2 < x || y2 < y) {
 		throw;
@@ -51,31 +56,7 @@ void Renderer::drawBox(const int& x, const int& y, const int& x2, const int& y2,
 	Renderer::drawLine(x, y2, x2, y2, character);
 	Renderer::drawLine(x2, y, x2, y2, character);
 }
-
-void Renderer::drawSmartBox(const int& x, const int& y, const int& x2, const int& y2) {
-#ifdef _DEBUG
-	if (x2 < x || y2 < y) {
-		throw;
-		return;
-	}
-#endif
-
-	/*
-		https://www.fileformat.info/info/unicode/block/box_drawing/list.htm
-	*/
-
-	Renderer::drawLine(x, y, x, y2, L'\u2551');
-	Renderer::drawLine(x2, y, x2, y2, L'\u2551');
-	Renderer::drawLine(x, y2, x2, y2, L'\u2550');
-	Renderer::drawLine(x, y, x2, y, L'\u2550');
-
-	Renderer::draw(x, y, L'\u2554');
-	Renderer::draw(x2, y, L'\u2557');
-	Renderer::draw(x, y2, L'\u255a');
-	Renderer::draw(x2, y2, L'\u255d');
-}
-
-void Renderer::drawFilledBox(const int& x, const int& y, const int& x2, const int& y2, const wchar_t& character) {
+void Renderer::drawFilledBox(const int& x, const int& y, const int& x2, const int& y2, const Character& character) {
 #ifdef _DEBUG
 	if (x < 0 || y < 0 || x2 < 0 || y2 < 0 || x2 < x || y2 < y) {
 		throw;
@@ -87,8 +68,7 @@ void Renderer::drawFilledBox(const int& x, const int& y, const int& x2, const in
 		Renderer::drawLine(x, i, x2, i, character);
 	}
 }
-
-void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2, const wchar_t& character) {
+void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2, const Character& character) {
 #ifdef _DEBUG
 	if (x2 < x || y2 < y) {
 		throw;
@@ -123,10 +103,44 @@ void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2
 	}
 }
 
+void Renderer::draw(const int& x, const int& y, const wchar_t& character) {
+	draw(x, y, Character(character));
+}
+void Renderer::drawBox(const int& x, const int& y, const int& x2, const int& y2, const wchar_t& character) {
+	drawBox(x, y, x2, y2, Character(character));
+}
+void Renderer::drawFilledBox(const int& x, const int& y, const int& x2, const int& y2, const wchar_t& character) {
+	drawFilledBox(x, y, x2, y2, Character(character));
+}
+void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2, const wchar_t& character) {
+	drawLine(x, y, x2, y2, Character(character));
+}
+
+void Renderer::drawSmartBox(const int& x, const int& y, const int& x2, const int& y2) {
+#ifdef _DEBUG
+	if (x2 < x || y2 < y) {
+		throw;
+		return;
+	}
+#endif
+
+	/*
+		https://www.fileformat.info/info/unicode/block/box_drawing/list.htm
+	*/
+
+	Renderer::drawLine(x, y, x, y2, L'\u2551');
+	Renderer::drawLine(x2, y, x2, y2, L'\u2551');
+	Renderer::drawLine(x, y2, x2, y2, L'\u2550');
+	Renderer::drawLine(x, y, x2, y, L'\u2550');
+
+	Renderer::draw(x, y, L'\u2554');
+	Renderer::draw(x2, y, L'\u2557');
+	Renderer::draw(x, y2, L'\u255a');
+	Renderer::draw(x2, y2, L'\u255d');
+}
 void Renderer::drawTextAligned(const int& x, const int& y, const std::string& text) {
 	drawText(x - (unsigned int) (((float) text.length()) / 2.f), y, text);
 }
-
 void Renderer::drawText(const int& x, const int& y, const std::string& text) {
 #ifdef _DEBUG
 	if (x + text.length() >= (GRID_X_WIDTH * GRID_Y_WIDTH)) {
@@ -142,6 +156,27 @@ void Renderer::drawText(const int& x, const int& y, const std::string& text) {
 		}
 	}
 }
+void Renderer::setColorScheme(const ColorScheme& scheme) {
+	switch (scheme) {
+	case ColorScheme::White:
+		Console::setTextAttribute(15);
+		break;
+	case ColorScheme::AI:
+		Console::setTextAttribute(3);
+		break;
+	case ColorScheme::Player:
+		Console::setTextAttribute(8);
+		break;
+	case ColorScheme::Highlighted:
+		Console::setTextAttribute(14);
+		break;
+	case ColorScheme::Targeted:
+		Console::setTextAttribute(10);
+		break;
+	default:
+		break;
+	}
+}
 
 void Renderer::flush() {
 	for (unsigned int y = 0; y < GRID_Y_WIDTH; y++) {
@@ -149,7 +184,9 @@ void Renderer::flush() {
 			//if (buffer[x][y] == lastBuffer[x][y]) {
 			//	SetCursorPos(x + 1, y);
 			//} else {
-				std::wcout << buffer[x][y];
+			Renderer::setColorScheme(buffer[x][y].scheme);
+			std::wcout << buffer[x][y].character;
+			Renderer::setColorScheme(ColorScheme::White);
 			//}
 		}
 		std::wcout << L"\n";
@@ -158,7 +195,8 @@ void Renderer::flush() {
 	for (unsigned int x = 0; x < GRID_X_WIDTH; x++) {
 		for (unsigned int y = 0; y < GRID_Y_WIDTH; y++) {
 			//lastBuffer[x][y] = buffer[x][y];
-			buffer[x][y] = 0;
+			buffer[x][y].character = ' ';
+			buffer[x][y].scheme = ColorScheme::White;
 		}
 	}
 }

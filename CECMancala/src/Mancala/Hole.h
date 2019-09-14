@@ -24,6 +24,6 @@ public:
 	*/
 	unsigned int takeStones(const unsigned int& amount = 1);
 public:
-	void drawPocket(const unsigned int& x, const unsigned int& y);
-	void drawMancala(const unsigned int& x);
+	void drawPocket(const unsigned int& x, const unsigned int& y, const bool& highlighted = false);
+	void drawMancala(const unsigned int& x, const bool& highlighted = false);
 };

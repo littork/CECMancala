@@ -1,5 +1,8 @@
 #include "Console.h"
 
+#include <iostream>
+#include <Windows.h>
+
 bool Console::initialized = false;
 HANDLE Console::handle = HANDLE();
 COORD Console::coordZero = COORD();
@@ -40,4 +43,8 @@ void Console::setCursorPosition(const unsigned int& x, const unsigned int& y) {
 	activeCoord.Y = y;
 
 	SetConsoleCursorPosition(handle, activeCoord);
+}
+
+void Console::setTextAttribute(const char& attribute) {
+	SetConsoleTextAttribute(handle, attribute);
 }

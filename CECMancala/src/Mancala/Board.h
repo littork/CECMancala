@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-class Hole;
+#include "Hole.h"
 
 class Board {
 public:
@@ -11,7 +11,10 @@ public:
 		leftMancala(nullptr),
 		rightMancala(nullptr),
 		leftPockets(std::vector<std::shared_ptr<Hole>>()),
-		rightPockets(std::vector<std::shared_ptr<Hole>>())
+		rightPockets(std::vector<std::shared_ptr<Hole>>()),
+		selection(0),
+		playerTurn(true),
+		activeStones(0)
 	{};
 public:
 	std::shared_ptr<Hole> leftMancala;
@@ -19,6 +22,15 @@ public:
 
 	std::vector<std::shared_ptr<Hole>> leftPockets;
 	std::vector<std::shared_ptr<Hole>> rightPockets;
+public:
+	std::shared_ptr<Hole> getPocket(const int& position);
+public:
+	bool playerTurn;
+	int activeStones;
+public:
+	int selection;
+	void moveSelection(const int& change);
+	void selectCCW();
 public:
 	void setup();
 	void draw();

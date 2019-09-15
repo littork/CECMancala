@@ -40,10 +40,10 @@ int main() {
 			break;
 		case 2:
 		case 1:
-			board->draw();
 			Renderer::drawLine(0, 16, 92, 16, L'\u2550');
 			Renderer::draw(-1, 16, L'\u2560');
 			Renderer::draw(93, 16, L'\u2563');
+			board->draw();
 			break;
 		}
 	});
@@ -107,15 +107,19 @@ int main() {
 				const int targetStones = board->getPocket(board->selection)->getStones();
 				if (targetStones) {
 					board->getPocket(board->selection)->takeStones(targetStones);
-					board->activeStones += targetStones;
+					board->pickedPocket->addStones(targetStones);
 					board->selectCCW();
 					State::setState(2);
 				}
 				break;
 			}
 		case 2:
-			if (key == Key::Return) {
-				board->selectCCW();
+			if (key == Key::Backspace) {
+				board->tickSelection();
+				if (!board->pickedPocket->getStones()) {
+					board->selection = POCKET_WIDTH;
+					State::setState(1);
+				}
 				Engine::render();
 			}
 			break;

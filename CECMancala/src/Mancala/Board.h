@@ -12,9 +12,9 @@ public:
 		rightMancala(nullptr),
 		leftPockets(std::vector<std::shared_ptr<Hole>>()),
 		rightPockets(std::vector<std::shared_ptr<Hole>>()),
+		pickedPocket(nullptr),
 		selection(0),
-		playerTurn(true),
-		activeStones(0)
+		playerTurn(true)
 	{};
 public:
 	std::shared_ptr<Hole> leftMancala;
@@ -22,15 +22,18 @@ public:
 
 	std::vector<std::shared_ptr<Hole>> leftPockets;
 	std::vector<std::shared_ptr<Hole>> rightPockets;
+
+	std::shared_ptr<Hole> pickedPocket;
 public:
 	std::shared_ptr<Hole> getPocket(const int& position);
 public:
 	bool playerTurn;
-	int activeStones;
 public:
 	int selection;
 	void moveSelection(const int& change);
 	void selectCCW();
+public:
+	void tickSelection();
 public:
 	void setup();
 	void draw();

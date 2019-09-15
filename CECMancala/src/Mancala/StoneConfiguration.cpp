@@ -6,9 +6,11 @@
 StoneConfiguration::StoneConfiguration() : configuration() {
 	for (unsigned int y = 0; y < POCKET_INTERNAL_DIMENSION_Y; y++) {
 		for (unsigned int x = 0; x < POCKET_INTERNAL_DIMENSION_X; x++) {
-			configuration[x + (y * POCKET_INTERNAL_DIMENSION_Y)] = std::make_shared<ConfigurationMapper>();
+			configuration[x + (y * POCKET_INTERNAL_DIMENSION_X)] = std::make_shared<ConfigurationMapper>();
 		}
 	}
+
+	calculate(POCKET_INTERNAL_DIMENSION_X * POCKET_INTERNAL_DIMENSION_Y - 1);
 }
 
 void StoneConfiguration::calculate(const unsigned int& stones) {
@@ -22,8 +24,8 @@ void StoneConfiguration::calculate(const unsigned int& stones) {
 	if (stones == 0) {
 		for (unsigned int y = 0; y < POCKET_INTERNAL_DIMENSION_Y; y++) {
 			for (unsigned int x = 0; x < POCKET_INTERNAL_DIMENSION_X; x++) {
-				configuration[x + (y * POCKET_INTERNAL_DIMENSION_Y)]->x = 0;
-				configuration[x + (y * POCKET_INTERNAL_DIMENSION_Y)]->y = 0;
+				configuration[x + (y * POCKET_INTERNAL_DIMENSION_X)]->x = 0;
+				configuration[x + (y * POCKET_INTERNAL_DIMENSION_X)]->y = 0;
 			}
 		}
 	}
@@ -39,7 +41,7 @@ void StoneConfiguration::calculate(const unsigned int& stones) {
 		// Check for duplicates
 		for (unsigned int y = 0; y < POCKET_INTERNAL_DIMENSION_Y; y++) {
 			for (unsigned int x = 0; x < POCKET_INTERNAL_DIMENSION_X; x++) {
-				if (configuration[x + (y * POCKET_INTERNAL_DIMENSION_Y)]->x == randX && configuration[x + (y * POCKET_INTERNAL_DIMENSION_Y)]->y == randY) {
+				if (configuration[x + (y * POCKET_INTERNAL_DIMENSION_X)]->x == randX && configuration[x + (y * POCKET_INTERNAL_DIMENSION_X)]->y == randY) {
 					duplicate = true;
 					break;
 				}

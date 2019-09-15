@@ -20,6 +20,8 @@ void Board::setup() {
 		rightPockets[i]->addStones(POCKET_STARTING_STONES);
 	}
 
+	pickedPocket = std::make_shared<Hole>();
+
 	selection = POCKET_WIDTH; // User takes first turn
 }
 
@@ -31,7 +33,20 @@ void Board::draw() {
 		leftPockets[x]->drawPocket(x, 0, selection == x);
 		rightPockets[x]->drawPocket(x, 1, selection == x + POCKET_WIDTH);
 	}
+
+	pickedPocket->drawPickedPocket();
 }
+void Board::tickSelection() {
+	if (pickedPocket->getStones()) {
+		pickedPocket->takeStones(1);
+		getPocket(selection)->addStones(1);
+
+		if (pickedPocket->getStones()) {
+			selectCCW();
+		}
+	}
+}
+
 
 void Board::moveSelection(const int& change) {
 	if (selection + change >= POCKET_WIDTH) {
@@ -46,10 +61,18 @@ void Board::moveSelection(const int& change) {
 }
 std::shared_ptr<Hole> Board::getPocket(const int& position) {
 #ifdef _DEBUG
-	if (position < 0 || position >= POCKET_WIDTH * 2) {
+	if (position < 0 || position > POCKET_WIDTH * 2 + 1) {
 		throw;
 	}
 #endif
+
+	if (position >= POCKET_WIDTH * 2) {
+		if (position == POCKET_WIDTH * 2) {
+			return leftMancala;
+		} else {
+			return rightMancala;
+		}
+	}
 
 	if (position < POCKET_WIDTH) {
 		return leftPockets.at(position);

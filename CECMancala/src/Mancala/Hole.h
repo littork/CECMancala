@@ -10,8 +10,6 @@ public:
 private:
 	unsigned int stones;
 	std::shared_ptr<StoneConfiguration> stoneConfiguration;
-private:
-	void recalculateStoneConfiguration();
 public:
 	unsigned int getStones();
 	void addStones(const unsigned int& amount = 1);
@@ -26,4 +24,5 @@ public:
 public:
 	void drawPocket(const unsigned int& x, const unsigned int& y, const bool& highlighted = false);
 	void drawMancala(const unsigned int& x, const bool& highlighted = false);
+	void drawPickedPocket();
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #define RENDER_FREQUENCY_MS 5000
+#define TICK_FREQUENCY_MS 500
 #define INPUT_FREQUENCY_MS  0
 
 #define GRID_X_WIDTH 95

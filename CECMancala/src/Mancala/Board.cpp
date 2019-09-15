@@ -38,15 +38,37 @@ void Board::draw() {
 }
 void Board::tickSelection() {
 	if (pickedPocket->getStones()) {
-		pickedPocket->takeStones(1);
-		getPocket(selection)->addStones(1);
+		std::shared_ptr<Hole> resultantPocket = getPocket(selection);
+		if (resultantPocket != nullptr) {
+			pickedPocket->takeStones(1);
+			resultantPocket->addStones(1);
 
-		if (pickedPocket->getStones()) {
+			if (pickedPocket->getStones()) {
+				selectCCW();
+			} else {
+				// Last drop
+				if (selection >= POCKET_WIDTH * 2) { // If was in mancala
+					playerTurn = !playerTurn; // Extra turn
+				} else {
+					if (playerTurn && selection >= POCKET_WIDTH && getPocket(selection)->getStones() == 1) { // Last drop is in empty pocket on owning side
+						leftMancala->addStones(getPocket(selection - POCKET_WIDTH)->takeStones(-1)); // Take all stones from opposite side and credit them to mancala
+
+						resultantPocket->takeStones(1);
+						leftMancala->addStones(1);
+					} else if (!playerTurn && selection < POCKET_WIDTH && getPocket(selection)->getStones() == 1) {
+						rightMancala->addStones(getPocket(selection + POCKET_WIDTH)->takeStones(-1)); // Take all stones from opposite side and credit them to mancala
+
+						resultantPocket->takeStones(1);
+						rightMancala->addStones(1);
+					}
+				}
+			}
+		} else {
 			selectCCW();
 		}
+
 	}
 }
-
 
 void Board::moveSelection(const int& change) {
 	if (selection + change >= POCKET_WIDTH) {
@@ -67,10 +89,12 @@ std::shared_ptr<Hole> Board::getPocket(const int& position) {
 #endif
 
 	if (position >= POCKET_WIDTH * 2) {
-		if (position == POCKET_WIDTH * 2) {
+		if (position == POCKET_WIDTH * 2 && playerTurn) {
 			return leftMancala;
-		} else {
+		} else if(!playerTurn && position == POCKET_WIDTH * 2 + 1) {
 			return rightMancala;
+		} else {
+			return nullptr;
 		}
 	}
 

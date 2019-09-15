@@ -13,8 +13,13 @@ void Hole::addStones(const unsigned int& amount) {
 	this->stones += amount;
 }
 
-unsigned int Hole::takeStones(const unsigned int& amount) {
+unsigned int Hole::takeStones(const int& amount) {
 	const unsigned int originalStones = this->stones;
+	if (amount == -1) {
+		this->stones = 0;
+		return originalStones;
+	}
+
 	this->stones -= amount;
 	if (this->stones < 0) {
 		this->stones = 0;
@@ -33,6 +38,10 @@ void Hole::drawPocket(const unsigned int& x, const unsigned int& y, const bool& 
 
 void Hole::drawMancala(const unsigned int& x, const bool& highlighted) {
 	Renderer::drawBox(84 * x, 0, 84 * x + 8, 15, Character(L'\u2588', highlighted ? ColorScheme::Targeted : x ? ColorScheme::AI : ColorScheme::Player));
+
+	for (unsigned int i = 0; i < this->stones; i++) {
+		Renderer::draw((84 * x + 1) + ((i / 2) % 6) + ((i / 2) % 6 >= 3 ? 1 : 0), (1 + i % 2) + ((i / 12) * 3), L'\u058d');
+	}
 }
 
 void Hole::drawPickedPocket() {

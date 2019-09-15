@@ -17,6 +17,7 @@ public:
 	static void render();
 public:
 	static Signal<> SignalRender;
+	static Signal<> SignalTick;
 
 	static Slot_Scoped<char> SlotKeyPress;
 public:

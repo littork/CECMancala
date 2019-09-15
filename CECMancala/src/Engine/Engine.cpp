@@ -16,6 +16,7 @@
 #include <cstdlib>
 
 Signal<> Engine::SignalRender = Signal<>();
+Signal<> Engine::SignalTick = Signal<>();
 Slot_Scoped<char> Engine::SlotKeyPress = Slot_Scoped<char>();
 
 bool Engine::looping = false;
@@ -92,6 +93,7 @@ void Engine::loop() {
 
 	std::chrono::steady_clock::time_point lastFrameTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
 	std::chrono::steady_clock::time_point lastInputTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
+	std::chrono::steady_clock::time_point lastTickTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
 	auto startTime = CHRONO_NOW();
 
 	unsigned int frameCounter = 0;
@@ -99,19 +101,22 @@ void Engine::loop() {
 	while (looping) {
 		const unsigned __int64 frameDiffMs = (CHRONO_NOW() - lastFrameTime).count() / 1000000;
 		const unsigned __int64 inputDiffMs = (CHRONO_NOW() - lastInputTime).count() / 1000000;
+		const unsigned __int64 tickDiffMs = (CHRONO_NOW() - lastTickTime).count() / 1000000;
 
-		if (inputDiffMs > INPUT_FREQUENCY_MS) {
+		if (tickDiffMs >= TICK_FREQUENCY_MS) {
+			SignalTick.emit();
+			lastTickTime = CHRONO_NOW();
+		}
+
+		if (inputDiffMs >= INPUT_FREQUENCY_MS) {
 			Input::refresh();
 			lastInputTime = CHRONO_NOW();
 		}
 
-		if (frameDiffMs < RENDER_FREQUENCY_MS) {
-			continue;
+		if (frameDiffMs >= RENDER_FREQUENCY_MS) {
+			render();
+			frameCounter++;
+			lastFrameTime = CHRONO_NOW();
 		}
-
-		render();
-
-		frameCounter++;
-		lastFrameTime = CHRONO_NOW();
 	}
 }

@@ -205,6 +205,7 @@ int main() {
 			break;
 		case 4:
 		case 5:
+			board->setup();
 			State::setState(1);
 			break;
 		}

@@ -9,6 +9,12 @@ void Board::setup() {
 	leftMancala = std::make_shared<Hole>();
 	rightMancala = std::make_shared<Hole>();
 
+	leftPockets.clear();
+	rightPockets.clear();
+
+	selection = 0;
+	playerTurn = true;
+
 	for (unsigned int i = 0; i < POCKET_WIDTH; i++) {
 		leftPockets.push_back(std::make_shared<Hole>());
 		rightPockets.push_back(std::make_shared<Hole>());

@@ -6,20 +6,22 @@
 enum class ColorScheme {
 	White,
 	AI,
+	AIControl,
 	Player,
 	Highlighted,
 	Targeted
 };
 
 struct Character {
-	Character(const wchar_t& _character = ' ', const ColorScheme& _scheme = ColorScheme::White) {
+	Character(const wchar_t& _character = ' ', const ColorScheme& _scheme = ColorScheme::White, const bool& _paint = false) {
 		character = _character;
 		scheme = _scheme;
+		paint = _paint;
 	}
 
 	wchar_t character;
 	ColorScheme scheme;
-
+	bool paint;
 };
 
 class Renderer {
@@ -39,7 +41,7 @@ public:
 public:
 	static void drawTextAligned(const int& x, const int& y, const std::string& text);
 	static void drawText(const int& x, const int& y, const std::string& text);
-	static void drawSmartBox(const int& x, const int& y, const int& x2, const int& y2);
+	static void drawSmartBox(const int& x, const int& y, const int& x2, const int& y2, const ColorScheme& color = ColorScheme::White);
 public:
 	static void draw(const int& x, const int& y, const Character& character);
 	static void drawLine(const int& x, const int& y, const int& width, const int& height, const Character& character);

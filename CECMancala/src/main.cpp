@@ -12,6 +12,7 @@
 
 #include <cstdlib>
 #include <memory>
+#include <chrono>
 
 #include <Mancala/Board.h>
 
@@ -57,6 +58,9 @@ int main() {
 			Renderer::drawTextAligned(48, 12, "Press any key to play again, or hit escape to quit");
 			break;
 		}
+
+		const ColorScheme outlineScheme = board->playerTurn ? ColorScheme::Highlighted : ColorScheme::AIControl;//State::getState() == 1 ? ColorScheme::Targeted : ColorScheme::Highlighted : ColorScheme::AIControl;
+		Renderer::drawBox(0 - Renderer::window[0], 0 - Renderer::window[1], GRID_X_WIDTH - 1 - Renderer::window[0], GRID_Y_WIDTH - 1 - Renderer::window[1], Character(' ', outlineScheme, true));
 	});
 
 	/*
@@ -64,6 +68,9 @@ int main() {
 		0: Start menu
 		1: Awaiting playing pick
 		2: Placing picked pieces
+		3: AI Pick
+		4: AI Win
+		5: User Win
 	*/
 
 	// State machine
@@ -101,6 +108,7 @@ int main() {
 			Renderer::setWindow(1, 1);
 			break;
 		case 2:
+			Engine::lastTickTime = CHRONO_NOW();
 			break;
 		case 3:
 			// AI pick

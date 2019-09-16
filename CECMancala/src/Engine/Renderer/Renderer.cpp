@@ -41,11 +41,15 @@ void Renderer::draw(const int& x, const int& y, const Character& character) {
 	}
 #endif
 
-	buffer[x + window[0]][y + window[1]] = character;
+	if (!character.paint) {
+		buffer[x + window[0]][y + window[1]] = character;
+	} else {
+		buffer[x + window[0]][y + window[1]].scheme = character.scheme;
+	}
 }
 void Renderer::drawBox(const int& x, const int& y, const int& x2, const int& y2, const Character& character) {
 #ifdef _DEBUG
-	if (x < 0 || y < 0 || x2 < 0 || y2 < 0 || x2 < x || y2 < y) {
+	if (x2 < x || y2 < y) {
 		throw;
 		return;
 	}
@@ -116,7 +120,7 @@ void Renderer::drawLine(const int& x, const int& y, const int& x2, const int& y2
 	drawLine(x, y, x2, y2, Character(character));
 }
 
-void Renderer::drawSmartBox(const int& x, const int& y, const int& x2, const int& y2) {
+void Renderer::drawSmartBox(const int& x, const int& y, const int& x2, const int& y2, const ColorScheme& color) {
 #ifdef _DEBUG
 	if (x2 < x || y2 < y) {
 		throw;
@@ -128,15 +132,15 @@ void Renderer::drawSmartBox(const int& x, const int& y, const int& x2, const int
 		https://www.fileformat.info/info/unicode/block/box_drawing/list.htm
 	*/
 
-	Renderer::drawLine(x, y, x, y2, L'\u2551');
-	Renderer::drawLine(x2, y, x2, y2, L'\u2551');
-	Renderer::drawLine(x, y2, x2, y2, L'\u2550');
-	Renderer::drawLine(x, y, x2, y, L'\u2550');
+	Renderer::drawLine(x, y, x, y2, Character(L'\u2551', color));
+	Renderer::drawLine(x2, y, x2, y2, Character(L'\u2551', color));
+	Renderer::drawLine(x, y2, x2, y2, Character(L'\u2550', color));
+	Renderer::drawLine(x, y, x2, y, Character(L'\u2550', color));
 
-	Renderer::draw(x, y, L'\u2554');
-	Renderer::draw(x2, y, L'\u2557');
-	Renderer::draw(x, y2, L'\u255a');
-	Renderer::draw(x2, y2, L'\u255d');
+	Renderer::draw(x, y, Character(L'\u2554', color));
+	Renderer::draw(x2, y, Character(L'\u2557', color));
+	Renderer::draw(x, y2, Character(L'\u255a', color));
+	Renderer::draw(x2, y2, Character(L'\u255d', color));
 }
 void Renderer::drawTextAligned(const int& x, const int& y, const std::string& text) {
 	drawText(x - (unsigned int) (((float) text.length()) / 2.f), y, text);
@@ -163,6 +167,9 @@ void Renderer::setColorScheme(const ColorScheme& scheme) {
 		break;
 	case ColorScheme::AI:
 		Console::setTextAttribute(3);
+		break;
+	case ColorScheme::AIControl:
+		Console::setTextAttribute(12);
 		break;
 	case ColorScheme::Player:
 		Console::setTextAttribute(8);

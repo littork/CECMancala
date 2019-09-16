@@ -2,9 +2,6 @@
 
 #include <Engine/Renderer/Renderer.h>
 #include <Engine/Console/Console.h>
-
-#include <chrono>
-
 #include <Engine/Input/Input.h>
 #include <Engine/Input/UserInput.h>
 
@@ -18,6 +15,10 @@
 Signal<> Engine::SignalRender = Signal<>();
 Signal<> Engine::SignalTick = Signal<>();
 Slot_Scoped<char> Engine::SlotKeyPress = Slot_Scoped<char>();
+
+std::chrono::steady_clock::time_point Engine::lastFrameTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
+std::chrono::steady_clock::time_point Engine::lastInputTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
+std::chrono::steady_clock::time_point Engine::lastTickTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
 
 bool Engine::looping = false;
 bool Engine::initialized = false;
@@ -91,9 +92,9 @@ void Engine::render() {
 void Engine::loop() {
 	init();
 
-	std::chrono::steady_clock::time_point lastFrameTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
-	std::chrono::steady_clock::time_point lastInputTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
-	std::chrono::steady_clock::time_point lastTickTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
+	lastFrameTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
+	lastInputTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
+	lastTickTime = std::chrono::time_point<std::chrono::steady_clock, std::chrono::steady_clock::duration>();
 	auto startTime = CHRONO_NOW();
 
 	unsigned int frameCounter = 0;

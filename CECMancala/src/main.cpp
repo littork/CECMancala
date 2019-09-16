@@ -112,11 +112,18 @@ int main() {
 			break;
 		case 3:
 			// AI pick
-			for (int i = 0; i < POCKET_WIDTH; i++) { // AI picks a pocket with stones automatically
+			// V1
+			/*for (int i = 0; i < POCKET_WIDTH; i++) { // AI picks a pocket with stones automatically
 				if (board->getPocket(i)->getStones()) {
 					board->selection = i;
 					break;
 				}
+			}*/
+			// V2
+			aiPick:
+			board->selection = std::rand() % POCKET_WIDTH;
+			while (!board->getPocket(board->selection)->getStones()) {
+				goto aiPick;
 			}
 
 			{

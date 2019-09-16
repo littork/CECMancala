@@ -32,7 +32,7 @@ void Hole::drawPocket(const unsigned int& x, const unsigned int& y, const bool& 
 	Renderer::drawBox(12 * x + POCKETS_X_OFFSET, y * 10, (12 * x) + 8 + POCKETS_X_OFFSET, (y * 10) + 5, Character(L'\u2588', highlighted ? State::getState() == 1 ? ColorScheme::Highlighted : ColorScheme::Targeted : y ? ColorScheme::Player : ColorScheme::AI));
 
 	for (unsigned int i = 0; i < this->stones; i++) {
-		Renderer::draw(12 * x + POCKETS_X_OFFSET + this->stoneConfiguration->configuration[i]->x + 1, y * 10 + this->stoneConfiguration->configuration[i]->y + 1, L'\u058d');
+		Renderer::draw(12 * x + POCKETS_X_OFFSET + this->stoneConfiguration->configuration[i]->x + 1, y * 10 + this->stoneConfiguration->configuration[i]->y + 1, MANCALA_CHARACTER);
 	}
 }
 
@@ -40,7 +40,7 @@ void Hole::drawMancala(const unsigned int& x, const bool& highlighted) {
 	Renderer::drawBox(84 * x, 0, 84 * x + 8, 15, Character(L'\u2588', highlighted ? ColorScheme::Targeted : x ? ColorScheme::AI : ColorScheme::Player));
 
 	for (unsigned int i = 0; i < this->stones; i++) {
-		Renderer::draw((84 * x + 1) + ((i / 2) % 6) + ((i / 2) % 6 >= 3 ? 1 : 0), (1 + i % 2) + ((i / 12) * 3), L'\u058d');
+		Renderer::draw((84 * x + 1) + ((i / 2) % 6) + ((i / 2) % 6 >= 3 ? 1 : 0), (1 + i % 2) + ((i / 12) * 3), MANCALA_CHARACTER);
 	}
 }
 
@@ -51,6 +51,6 @@ void Hole::drawPickedPocket() {
 	Renderer::draw(-1, 18, L'\u2560');
 
 	for (unsigned int i = 0; i < this->stones; i++) {
-		Renderer::draw(i, 17, L'\u058d');
+		Renderer::draw(i, 17, MANCALA_CHARACTER);
 	}
 }

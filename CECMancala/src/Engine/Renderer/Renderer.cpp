@@ -166,13 +166,13 @@ void Renderer::setColorScheme(const ColorScheme& scheme) {
 		Console::setTextAttribute(15);
 		break;
 	case ColorScheme::AI:
-		Console::setTextAttribute(3);
+		Console::setTextAttribute(12);
 		break;
 	case ColorScheme::AIControl:
 		Console::setTextAttribute(12);
 		break;
 	case ColorScheme::Player:
-		Console::setTextAttribute(8);
+		Console::setTextAttribute(7);
 		break;
 	case ColorScheme::Highlighted:
 		Console::setTextAttribute(14);

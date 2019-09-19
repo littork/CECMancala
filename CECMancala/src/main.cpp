@@ -1,11 +1,9 @@
 /*
 	main.cpp
 
-	Dylan Pozarnsky 8/14/2019
+	Dylan Pozarnsky
 
-	Rock Paper Scissors Project
-
-	The engine is very incomplete.
+	Mancala game
 */
 
 #include <Engine/Engine_Core.h>
@@ -120,11 +118,15 @@ int main() {
 				}
 			}*/
 			// V2
-			aiPick:
+			/*aiPick:
 			board->selection = std::rand() % POCKET_WIDTH;
 			while (!board->getPocket(board->selection)->getStones()) {
 				goto aiPick;
-			}
+			}*/
+			// V3
+			do {
+				board->selection = std::rand() % POCKET_WIDTH;
+			} while (!board->getPocket(board->selection)->getStones());
 
 			{
 				const int targetStones = board->getPocket(board->selection)->getStones();

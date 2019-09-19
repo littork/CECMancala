@@ -1,3 +1,11 @@
+/*
+Input.h
+
+Dylan Pozarnsky
+
+Monitors and tracks user input
+*/
+
 #pragma once
 
 #include <windows.h>

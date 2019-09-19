@@ -1,3 +1,11 @@
+/*
+Signal.h
+
+Dylan Pozarnsky
+
+Tracks game state
+*/
+
 #pragma once
 
 #include <Engine/Signal.h>

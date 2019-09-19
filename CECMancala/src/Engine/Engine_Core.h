@@ -1,3 +1,11 @@
+/*
+Engine_Core.h
+
+Dylan Pozarnsky
+
+Utility header
+*/
+
 #pragma once
 
 #include <Engine/Console/Console.h>

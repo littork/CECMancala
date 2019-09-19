@@ -1,3 +1,11 @@
+/*
+Engine.h
+
+Dylan Pozarnsky
+
+Establishes game loop
+*/
+
 #pragma once
 
 #include <Engine/Signal.h>

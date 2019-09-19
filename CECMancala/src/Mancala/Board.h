@@ -1,3 +1,11 @@
+/*
+Board.h
+
+Dylan Pozarnsky
+
+Basic board structure
+*/
+
 #pragma once
 
 #include <memory>

@@ -1,3 +1,11 @@
+/*
+Hole.h
+
+Dylan Pozarnsky
+
+Individual pocket of stones
+*/
+
 #pragma once
 
 #include "StoneConfiguration.h"

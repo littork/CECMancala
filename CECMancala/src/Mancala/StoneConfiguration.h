@@ -1,3 +1,11 @@
+/*
+StoneConfiguration.h
+
+Dylan Pozarnsky
+
+Visually organizes stones within a pocket
+*/
+
 #pragma once
 
 #include "MancalaMacros.h"

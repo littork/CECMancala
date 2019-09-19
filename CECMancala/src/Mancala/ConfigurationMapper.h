@@ -1,3 +1,11 @@
+/*
+ConfigurationMapper.h
+
+Dylan Pozarnsky
+
+Helps visually map mancala pieces into pockets
+*/
+
 #pragma once
 
 struct ConfigurationMapper {

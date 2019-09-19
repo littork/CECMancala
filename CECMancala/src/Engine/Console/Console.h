@@ -1,3 +1,11 @@
+/*
+Console.h
+
+Dylan Pozarnsky
+
+Provides abstraction behind console related functions
+*/
+
 #pragma once
 
 #include <iostream>

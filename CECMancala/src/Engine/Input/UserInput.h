@@ -1,3 +1,11 @@
+/*
+UserInput.h
+
+Dylan Pozarnsky
+
+Allows user to type multicharacter inputs
+*/
+
 #pragma once
 
 #include <Engine/Signal.h>

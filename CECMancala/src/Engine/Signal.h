@@ -1,5 +1,9 @@
 /*
-	Header only sigslot class I wrote a few months ago
+Signal.h
+
+Dylan Pozarnsky
+
+Header-only sigslot class I wrote a few months ago
 */
 
 #pragma once

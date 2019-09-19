@@ -1,3 +1,11 @@
+/*
+Renderer.h
+
+Dylan Pozarnsky
+
+Holds a buffer of characters. Draws buffer onto console when flushed
+*/
+
 #pragma once
 
 #include <Engine/Macros.h>

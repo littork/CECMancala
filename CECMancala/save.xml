@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cereal>
+	<data>
+		<gamesWon>500</gamesWon>
+		<gamesLost>500</gamesLost>
+		<gamesTied>500</gamesTied>
+	</data>
+</cereal>
+

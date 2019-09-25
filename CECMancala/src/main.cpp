@@ -16,6 +16,9 @@
 #include <Engine.h>
 #include <cstdlib>
 #include <memory>
+#include <fstream>
+
+#include <cereal/archives/xml.hpp>
 
 std::string parseResult(const unsigned __int8 gameResult) {
 	switch (gameResult) {
@@ -64,6 +67,39 @@ unsigned __int8 encodePick(const char& character) {
 	}
 }
 
+struct RPSData {
+	RPSData() : gamesWon(0), gamesLost(0), gamesTied(0) {}
+
+	unsigned __int64 gamesWon;
+	unsigned __int64 gamesLost;
+	unsigned __int64 gamesTied;
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(CEREAL_NVP(gamesWon), CEREAL_NVP(gamesLost), CEREAL_NVP(gamesTied));
+	}
+};
+
+void saveGame(const RPSData& data) {
+	std::ofstream os("save.xml");
+	cereal::XMLOutputArchive archive(os);
+	archive(CEREAL_NVP(data));
+}
+
+RPSData loadGame() {
+	std::ifstream is("save.xml");
+	if (is.fail()) {
+		return RPSData();
+	}
+	cereal::XMLInputArchive archive(is);
+
+	RPSData data = RPSData();
+	archive(data);
+
+	return data;
+}
+
 int main() {
 	Engine::init();
 
@@ -73,9 +109,7 @@ int main() {
 	unsigned __int8 computerPick = 0;
 	unsigned __int8 userPick = 0;
 
-	unsigned __int64 gamesWon = 0;
-	unsigned __int64 gamesLost = 0;
-	unsigned __int64 gamesTied = 0;
+	RPSData gameData = loadGame();
 
 	// Renderer
 	Slot_Scoped<> SlotRender = Engine::SignalRender.connect([&]() {
@@ -92,12 +126,12 @@ int main() {
 		}
 
 		Renderer::drawLine(48, 2, 48, 4, '|');
-		Renderer::drawLine(49, 1, 80, 1, '_');
-		Renderer::drawLine(49, 4, 80, 4, '_');
-		Renderer::drawLine(80, 2, 80, 4, '|');
+		Renderer::drawLine(49, 1, 84, 1, '_');
+		Renderer::drawLine(49, 4, 84, 4, '_');
+		Renderer::drawLine(84, 2, 84, 4, '|');
 
-		Renderer::drawText(50, 2, "Games won/lost/tied: " + std::to_string(gamesWon) + "/" + std::to_string(gamesLost) + "/" + std::to_string(gamesTied));
-		Renderer::drawText(50, 3, "Total games played: " + std::to_string(gamesWon + gamesLost + gamesTied));
+		Renderer::drawText(50, 2, "Games won/lost/tied: " + std::to_string(gameData.gamesWon) + "/" + std::to_string(gameData.gamesLost) + "/" + std::to_string(gameData.gamesTied));
+		Renderer::drawText(50, 3, "Total games played: " + std::to_string(gameData.gamesWon + gameData.gamesLost + gameData.gamesTied));
 	});
 
 	// State machine
@@ -129,13 +163,13 @@ int main() {
 				gameResult = ((computerPick == userPick) ? 2 : ((userPick == 0) ? ((computerPick == 1) ? 1 : 0) : ((userPick == 1) ? ((computerPick == 2) ? 1 : 0) : ((computerPick == 0) ? 1 : 0))));
 				switch (gameResult) {
 				case 0:
-					gamesWon++;
+					gameData.gamesWon++;
 					break;
 				case 1:
-					gamesLost++;
+					gameData.gamesLost++;
 					break;
 				case 2:
-					gamesTied++;
+					gameData.gamesTied++;
 					break;
 				}
 			}
@@ -188,6 +222,8 @@ int main() {
 
 	Engine::loop();
 	Engine::deinit();
+
+	saveGame(gameData);
 
 	return 0;
 }

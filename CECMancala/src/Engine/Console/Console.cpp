@@ -6,7 +6,7 @@
 bool Console::initialized = false;
 HANDLE Console::handle = HANDLE();
 COORD Console::coordZero = COORD();
-COORD Console::activeCoord = COORD();
+//COORD Console::activeCoord = COORD();
 
 void Console::reset() {
 	init();
